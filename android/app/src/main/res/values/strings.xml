@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Casse l\'Œuf Géant</string>
+    <string name="title_activity_main">Casse l\'Œuf Géant</string>
+    <string name="package_name">com.noobzik.oeufgeant</string>
+    <string name="custom_url_scheme">com.noobzik.oeufgeant</string>
+</resources>

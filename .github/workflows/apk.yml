@@ -1,0 +1,53 @@
+name: Fabriquer l'APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Installer Capacitor
+        run: npm install
+
+      - name: Copier le jeu dans l'appli
+        run: npx cap sync android
+
+      - name: Fabriquer l'APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Renommer
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk Casse-Oeuf-Geant.apk
+
+      - name: Garder le fichier
+        uses: actions/upload-artifact@v4
+        with:
+          name: Casse-Oeuf-Geant-apk
+          path: Casse-Oeuf-Geant.apk
+
+      - name: Publier dans Releases (téléchargement direct sur téléphone)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: Casse l'Œuf Géant v1.0.${{ github.run_number }}
+          body: "Télécharge Casse-Oeuf-Geant.apk ci-dessous sur ton téléphone Android, ouvre-le et autorise l'installation."
+          files: Casse-Oeuf-Geant.apk

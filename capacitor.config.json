@@ -1,0 +1,6 @@
+{
+  "appId": "com.noobzik.oeufgeant",
+  "appName": "Casse l'Œuf Géant",
+  "webDir": "www",
+  "android": { "backgroundColor": "#16181d" }
+}
